@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Client</title>
+</head>
+
+<body>
+
+<form onsubmit="return false;">
+    <textarea name="message" style="width: 400px; height: 200px;"></textarea>
+    <input type="button" value="Send" onclick="send(this.form.message.value)">
+    <h3>Server Messages:</h3>
+    <textarea id="responseText" style="width: 400px; height: 300px;"></textarea>
+    <input type="button" onclick="javascript: document.getElementById('responseText').value=''" value="Clear">
+</form>
+
+<script type="text/javascript">
+    let socket;
+    if (window.WebSocket) {
+        socket = new WebSocket("ws://localhost:8899/ws")
+        let ta = document.getElementById('responseText');
+
+        socket.onmessage = (event) => {
+            ta.value = ta.value + '\n' + event.data
+        }
+
+        socket.onopen = (event) => {
+            ta.value = "Connected!";
+        }
+
+        socket.onclose = (event) => {
+            ta.value = `${ta.value}\nDisconnected!`
+        }
+
+    } else {
+        alert("This browser doesn't support websocket.")
+    }
+
+    function send(msg) {
+        if (!window.WebSocket) {
+            return
+        }
+
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.send(msg)
+        } else {
+            alert("Not connect yet.")
+        }
+    }
+</script>
+
+</body>
+
+
+</html>
