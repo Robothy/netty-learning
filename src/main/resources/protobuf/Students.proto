@@ -1,0 +1,50 @@
+syntax = "proto2";
+
+package _06.netty.protobuf;
+
+option optimize_for = SPEED;
+option java_package = "_06.netty.protobuf";
+option java_outer_classname = "DataInfo";
+
+
+message Member {
+  enum Role {
+    STUDENT = 1;
+    TEACHER = 2;
+  }
+
+  required Role role = 1;
+
+  oneof data {
+    Student student = 2;
+    Teacher teacher = 3;
+  }
+}
+
+message Student {
+  optional string name = 1;
+  optional int32 age = 2;
+  optional string address = 3;
+}
+
+message Teacher {
+  enum Title {
+    PROFESSOR = 1;
+    LECTURER = 2;
+  }
+
+  required Title title = 1;
+
+  oneof data {
+    Professor professor = 2;
+    Lecturer lecturer = 3;
+  }
+}
+
+message Professor {
+  optional string name = 1;
+}
+
+message Lecturer {
+  optional string name = 1;
+}
