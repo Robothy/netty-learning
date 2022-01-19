@@ -1,0 +1,22 @@
+syntax = "proto2";
+
+package _06.grpc;
+
+option optimize_for = SPEED;
+option java_package = "_07.grpc";
+option java_outer_classname = "GrpcPerson";
+option java_multiple_files = true;
+
+service PersonService {
+  rpc AddPerson(Person) returns (Person) {}
+  rpc ListPerson(EmptyRequest) returns (stream Person) {}
+}
+
+message EmptyRequest {
+
+}
+
+message Person {
+  optional string name = 1;
+  optional string age = 2;
+}

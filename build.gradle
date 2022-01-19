@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'com.google.protobuf' version '0.8.17'
     id 'com.robothy.cn-repo' version '1.8'
 }
 
@@ -10,20 +11,30 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenLocal()
     mavenCentral()
+    maven {
+        url "https://maven-central.storage-download.googleapis.com/maven2/"
+    }
+}
+
+ext {
+    grpcVersion = '1.43.1'
+    protobufVersion = '3.19.1'
+    nettyVersion = '4.1.72.Final'
 }
 
 dependencies {
-    implementation 'io.netty:netty-all:4.1.72.Final'
-    implementation 'com.google.protobuf:protobuf-java:3.19.1'
-    implementation 'com.google.protobuf:protobuf-java-util:3.19.1'
+    implementation "io.netty:netty-all:${nettyVersion}"
+    implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
+    implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+
+    runtimeOnly "io.grpc:grpc-netty-shaded:${grpcVersion}"
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
 test {
     useJUnitPlatform()
-}
-
-application {
-    mainClassName = System.getProperty("mainClass")
 }
